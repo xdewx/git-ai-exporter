@@ -1,0 +1,19 @@
+.gitignore
+  s_0dfc45c313b50a::t_2596887a2607b2 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "1c5b8badc23c33e1121cf553e16d693b66bcd608",
+  "prompts": {},
+  "sessions": {
+    "s_0dfc45c313b50a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484b0d1e-f3ab-4624-a668-2ce6aebad776",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
