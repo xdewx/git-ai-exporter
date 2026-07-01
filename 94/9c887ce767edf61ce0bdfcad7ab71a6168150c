@@ -1,0 +1,19 @@
+internal/git/git.go
+  s_afb9387bd20a69::t_1ba265b9d5f1d6 20-25,30,32,36,41,43,47-48,54-55,59-70,72-73,79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "949c887ce767edf61ce0bdfcad7ab71a6168150c",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
