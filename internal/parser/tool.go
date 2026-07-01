@@ -43,9 +43,7 @@ func GetToolModel(sessions map[string]any) string {
 func CalculateAiAdditions(entries []NoteEntry) int {
 	total := 0
 	for _, e := range entries {
-		if e.IsAI {
-			total += e.LineEnd - e.LineStart + 1
-		}
+		total += e.LineEnd - e.LineStart + 1
 	}
 	return total
 }
