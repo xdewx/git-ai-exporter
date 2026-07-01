@@ -44,15 +44,16 @@ func ParseNote(noteContent string) ParsedNote {
 		indent := leadingSpaces(line)
 		if indent == 0 {
 			currentFile = trimmed
-		} else {
-			m := parseLineRange(trimmed)
-			if m != nil && currentFile != "" {
-				entries = append(entries, NoteEntry{
-					File:      currentFile,
-					LineStart: m[0],
-					LineEnd:   m[1],
-					IsAI:      isAISession(trimmed),
-				})
+	} else {
+			ranges := parseLineRanges(trimmed)
+			for _, r := range ranges {
+				if currentFile != "" {
+					entries = append(entries, NoteEntry{
+						File:      currentFile,
+						LineStart: r[0],
+						LineEnd:   r[1],
+					})
+				}
 			}
 		}
 	}
@@ -96,18 +97,28 @@ func leadingSpaces(s string) int {
 	return count
 }
 
-func parseLineRange(s string) []int {
+func parseLineRanges(s string) [][]int {
 	parts := strings.Fields(s)
 	for i := len(parts) - 1; i >= 0; i-- {
-		p := parts[i]
-		sep := strings.IndexByte(p, '-')
-		if sep <= 0 || sep >= len(p)-1 {
+		ranges := parseRangeStr(parts[i])
+		if len(ranges) > 0 {
+			return ranges
+		}
+	}
+	return nil
+}
+
+func parseRangeStr(s string) [][]int {
+	var result [][]int
+	for _, seg := range strings.Split(s, ",") {
+		sep := strings.IndexByte(seg, '-')
+		if sep <= 0 || sep >= len(seg)-1 {
 			continue
 		}
 
 		start, end := 0, 0
 		valid := true
-		for _, r := range p[:sep] {
+		for _, r := range seg[:sep] {
 			if !unicode.IsDigit(r) {
 				valid = false
 				break
@@ -117,7 +128,7 @@ func parseLineRange(s string) []int {
 		if !valid || start <= 0 {
 			continue
 		}
-		for _, r := range p[sep+1:] {
+		for _, r := range seg[sep+1:] {
 			if !unicode.IsDigit(r) {
 				valid = false
 				break
@@ -125,8 +136,8 @@ func parseLineRange(s string) []int {
 			end = end*10 + int(r-'0')
 		}
 		if valid && end > 0 {
-			return []int{start, end}
+			result = append(result, []int{start, end})
 		}
 	}
-	return nil
+	return result
 }

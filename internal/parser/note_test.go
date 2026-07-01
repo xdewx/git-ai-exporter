@@ -140,11 +140,34 @@ func TestParseNote_InvalidLineRange(t *testing.T) {
   baz 1-2 extra
 `
 	n := ParseNote(input)
-	// Only the last line "baz 1-2" should be parsed
+	// Only the last line should produce a valid entry
 	if len(n.Entries) != 1 {
 		t.Fatalf("expected 1 valid entry, got %d", len(n.Entries))
 	}
 	if n.Entries[0].LineStart != 1 || n.Entries[0].LineEnd != 2 {
 		t.Fatalf("unexpected entry: %+v", n.Entries[0])
+	}
+}
+
+func TestParseNote_CommaSeparatedRanges(t *testing.T) {
+	input := `src/main.go
+  s_xxx::t_yyy 10-20,30-35,40-42
+`
+	n := ParseNote(input)
+	if len(n.Entries) != 3 {
+		t.Fatalf("expected 3 entries (3 ranges), got %d", len(n.Entries))
+	}
+	if n.Entries[0].LineStart != 10 || n.Entries[0].LineEnd != 20 {
+		t.Fatalf("unexpected first entry: %+v", n.Entries[0])
+	}
+	if n.Entries[1].LineStart != 30 || n.Entries[1].LineEnd != 35 {
+		t.Fatalf("unexpected second entry: %+v", n.Entries[1])
+	}
+	if n.Entries[2].LineStart != 40 || n.Entries[2].LineEnd != 42 {
+		t.Fatalf("unexpected third entry: %+v", n.Entries[2])
+	}
+	total := CalculateAiAdditions(n.Entries)
+	if total != 20 {
+		t.Fatalf("expected 20 ai additions (11+6+3), got %d", total)
 	}
 }
