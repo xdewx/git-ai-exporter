@@ -18,15 +18,11 @@ builds:
       - goos: windows
         goarch: arm64
     ldflags:
-      - -s -w
+      - -s -w -X github.com/xdewx/git-ai-exporter/cmd.Version={{ .Version }}
 
 archives:
   - format: tar.gz
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else }}{{ .Arch }}{{ end }}
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     format_overrides:
       - goos: windows
         format: zip

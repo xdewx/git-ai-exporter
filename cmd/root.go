@@ -26,9 +26,14 @@ var (
 	installHook bool
 )
 
+var (
+	doUpdate bool
+)
+
 var rootCmd = &cobra.Command{
-	Use:   "git-ai-exporter",
-	Short: "Export git-ai commit statistics",
+	Use:     "git-ai-exporter",
+	Short:   "Export git-ai commit statistics",
+	Version: Version,
 	Long: `Parse git-ai notes from a git repository and output structured data.
 
 By default, outputs JSON to stdout. Use --push to send data to a git-ai-dashboard instance.
@@ -55,6 +60,7 @@ func init() {
 	rootCmd.Flags().StringVar(&pushToken, "token", "", "API token (required with --push)")
 	rootCmd.Flags().StringVar(&hostname, "hostname", defaultHostname(), "Client hostname identifier")
 	rootCmd.Flags().BoolVar(&installHook, "install-hook", false, "Install post-commit hook and exit")
+	rootCmd.Flags().BoolVar(&doUpdate, "update", false, "Update to latest version from GitHub")
 }
 
 func defaultHostname() string {
@@ -73,6 +79,10 @@ func runExport(_ *cobra.Command, _ []string) error {
 		}
 		r := git.NewRunner(absDir)
 		return doInstallHook(r)
+	}
+
+	if doUpdate {
+		return doUpdateFn()
 	}
 
 	if push {
