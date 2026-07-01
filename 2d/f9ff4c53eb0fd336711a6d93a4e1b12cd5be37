@@ -1,0 +1,51 @@
+cmd/root.go
+  s_94e2c74de211e0::t_03b015f901214f 153-155
+  s_94e2c74de211e0::t_39e27e8cbea56e 98,103,156
+  s_94e2c74de211e0::t_12c7e5cc6cc160 152
+  s_94e2c74de211e0::t_0835e70fe2dee6 96-97
+  s_94e2c74de211e0::t_f50d987247fbe9 99-102
+  s_94e2c74de211e0::t_25af6cb52f049f 104
+cmd/guard.go
+  s_94e2c74de211e0::t_1a83f4d6bae4d2 7-18
+  s_94e2c74de211e0::t_2d98dbfe621c11 42
+  s_94e2c74de211e0::t_9fcff96416b8d2 43-44
+  s_94e2c74de211e0::t_37403e1d09f08a 1-6,19-41,45
+cmd/post-commit.sh
+  s_94e2c74de211e0::t_8f2c82c5907b39 22-25,27
+cmd/guard_unix.go
+  s_94e2c74de211e0::t_b1a2665e0fa94f 1-71
+internal/git/log.go
+  s_94e2c74de211e0::t_f4ece95204e433 75,81,85,88
+  s_94e2c74de211e0::t_173de5012e9d68 89
+cmd/guard_windows.go
+  s_94e2c74de211e0::t_41afdef2042f03 1-9,11,14-15,21-44,50-51,54-71,74
+  s_94e2c74de211e0::t_d73d2ad2f7e408 45-49
+  s_94e2c74de211e0::t_30467659088f15 119
+  s_94e2c74de211e0::t_41f2112fd44ee5 77,81,83,97-108,112,114
+  s_94e2c74de211e0::t_9aeb96156b5f4c 10
+  s_94e2c74de211e0::t_23f678cc87cc3d 89-93
+  s_94e2c74de211e0::t_5e4c71f2454628 16-20
+  s_94e2c74de211e0::t_a87525885836f9 52-53
+  s_94e2c74de211e0::t_fdae9b20f629da 12-13
+  s_94e2c74de211e0::t_0d270f2a13467d 72-73,75-76,78-80,82,84-88,94-96,109-111,113,115-118
+go.mod
+  s_94e2c74de211e0::t_7bcb4238060a2b 6-7
+go.sum
+  s_94e2c74de211e0::t_c1732020a08cff 26-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "2df9ff4c53eb0fd336711a6d93a4e1b12cd5be37",
+  "prompts": {},
+  "sessions": {
+    "s_94e2c74de211e0": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e272855affejG4na9K60HFKCY",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
