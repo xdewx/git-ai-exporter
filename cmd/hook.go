@@ -22,9 +22,10 @@ func doInstallHook(r *git.Runner) error {
 	}
 
 	gitDir := filepath.Join(repoDir, trimNewline(hookDir))
-	hookPath := filepath.Join(gitDir, "hooks", "post-commit")
+	hooksDir := filepath.Join(gitDir, "hooks")
+	hookPath := filepath.Join(hooksDir, "post-commit")
 
-	if err := os.MkdirAll(filepath.Dir(hookPath), 0755); err != nil {
+	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return fmt.Errorf("create hooks dir: %w", err)
 	}
 
@@ -33,11 +34,11 @@ func doInstallHook(r *git.Runner) error {
 		if strings.Contains(content, hookSig) {
 			fmt.Fprintln(os.Stderr, "Updating existing git-ai-exporter hook")
 		} else {
-			bakPath := hookPath + ".bak"
-			if err := os.WriteFile(bakPath, existing, 0644); err != nil {
-				return fmt.Errorf("backup existing hook: %w", err)
+			chainPath := hookPath + ".local"
+			if err := os.WriteFile(chainPath, existing, 0755); err != nil {
+				return fmt.Errorf("preserve existing hook: %w", err)
 			}
-			fmt.Fprintf(os.Stderr, "Existing hook backed up to: %s\n", bakPath)
+			fmt.Fprintf(os.Stderr, "Existing hook preserved: %s\n", chainPath)
 		}
 	}
 
