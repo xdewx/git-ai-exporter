@@ -1,0 +1,37 @@
+cmd/root.go
+  s_afb9387bd20a69::t_49a2e9dfcebd78 29-32,34-36
+  s_afb9387bd20a69::t_a6c99f72725838 63
+  s_afb9387bd20a69::t_35b9007acd795a 84-87
+cmd/version.go
+  s_afb9387bd20a69::t_08b3e10a937675 6
+  s_afb9387bd20a69::t_4153da1a7ecd26 14
+  s_afb9387bd20a69::t_16ee2674fb21dc 15-17
+  s_afb9387bd20a69::t_29648b2d9fa887 18-19
+  s_afb9387bd20a69::t_9d2538a4610fe8 1-5,7,9-13,20,25-26,29-33
+  s_afb9387bd20a69::t_afd52e656a3a95 8,21-24,27-28
+.goreleaser.yaml
+  s_afb9387bd20a69::t_38bab7e74c2b40 21
+  s_afb9387bd20a69::t_915461119a303b 25
+Makefile
+  s_afb9387bd20a69::t_183a5060c5e519 1-2,6,9-12
+go.mod
+  s_afb9387bd20a69::t_35d65cf7c3f37c 6-12,15-18,23,26,28-30,32
+go.sum
+  s_afb9387bd20a69::t_6005be5dcd9319 1-2,4-5,8,11-13,15-23,26-28,31-35,38-39,47-50,55-56,60-73,75,79-83,85-87,89-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "7b977db7d6eae0623f4bcb1f6d58ff6cbee2ac93",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
