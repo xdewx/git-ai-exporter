@@ -19,15 +19,12 @@ fi
 COUNT=$(git config hooks.ai-exporter-count)
 COUNT=${COUNT:-1}
 
-ERR=$(git-ai-exporter -r "$(git rev-parse --show-toplevel)" -n "$COUNT" --push --url "$URL" --token "$TOKEN" 2>&1 >/dev/null)
-if [ $? -ne 0 ]; then
-  echo ""
-  echo "  git-ai-exporter: failed to push stats"
-  echo "  $ERR"
-  echo ""
-fi
+HOOK_DIR=$(dirname "$0")
+LOG="$HOOK_DIR/git-ai-exporter.log"
 
-LOCAL_HOOK=$(dirname "$0")/post-commit.local
+nohup git-ai-exporter -r "$(git rev-parse --show-toplevel)" -n "$COUNT" --push --url "$URL" --token "$TOKEN" >/dev/null 2>>"$LOG" &
+
+LOCAL_HOOK=$HOOK_DIR/post-commit.local
 if [ -x "$LOCAL_HOOK" ]; then
   exec "$LOCAL_HOOK" "$@"
 fi

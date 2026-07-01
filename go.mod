@@ -3,13 +3,14 @@ module github.com/xdewx/git-ai-exporter
 go 1.25.3
 
 require (
+	github.com/blang/semver v3.5.1+incompatible
+	github.com/kardianos/service v1.2.4
 	github.com/rhysd/go-github-selfupdate v1.2.3
 	github.com/shirou/gopsutil/v4 v4.26.6
 	github.com/spf13/cobra v1.10.2
 )
 
 require (
-	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/ebitengine/purego v0.10.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect

@@ -14,17 +14,20 @@ import (
 )
 
 var (
-	repoDir     string
-	branch      string
-	count       int
-	since       string
-	until       string
-	outFmt      string
-	push        bool
-	pushURL     string
-	pushToken   string
-	hostname    string
-	installHook bool
+	repoDir        string
+	branch         string
+	count          int
+	since          string
+	until          string
+	outFmt         string
+	push           bool
+	pushURL        string
+	pushToken      string
+	hostname       string
+	installHook    bool
+	guardMode      bool
+	noGuard        bool
+	uninstallGuard bool
 )
 
 var (
@@ -61,6 +64,9 @@ func init() {
 	rootCmd.Flags().StringVar(&pushToken, "token", "", "API token (required with --push)")
 	rootCmd.Flags().StringVar(&hostname, "hostname", defaultHostname(), "Client hostname identifier")
 	rootCmd.Flags().BoolVar(&installHook, "install-hook", false, "Install post-commit hook and exit")
+	rootCmd.Flags().BoolVar(&guardMode, "guard", false, "Run guard daemon (keeps git-ai alive)")
+	rootCmd.Flags().BoolVar(&noGuard, "no-guard", false, "Skip guard installation with --install-hook")
+	rootCmd.Flags().BoolVar(&uninstallGuard, "uninstall-guard", false, "Remove guard auto-start service")
 	rootCmd.Flags().BoolVar(&doUpdate, "update", false, "Update to latest version from GitHub")
 }
 
@@ -73,13 +79,29 @@ func defaultHostname() string {
 }
 
 func runExport(_ *cobra.Command, _ []string) error {
+	if guardMode {
+		return runGuard()
+	}
+
+	if uninstallGuard {
+		return doUninstallGuard()
+	}
+
 	if installHook {
 		absDir, err := resolvePath(repoDir)
 		if err != nil {
 			return fmt.Errorf("resolve repo path: %w", err)
 		}
 		r := git.NewRunner(absDir)
-		return doInstallHook(r)
+		if err := doInstallHook(r); err != nil {
+			return err
+		}
+		if !noGuard {
+			if err := doInstallGuard(); err != nil {
+				fmt.Fprintf(os.Stderr, "Warning: guard installation failed: %v\n", err)
+			}
+		}
+		return nil
 	}
 
 	if doUpdate {
@@ -127,7 +149,11 @@ func runExport(_ *cobra.Command, _ []string) error {
 
 	if push && commits[0].NoteContent == "" {
 		fmt.Fprintln(os.Stderr, "Waiting for git-ai daemon to process latest commit...")
-		r.WaitForNote(10 * time.Second)
+		if r.WaitForNote(60 * time.Second) {
+			fmt.Fprintln(os.Stderr, "git-ai daemon processed the commit")
+		} else {
+			fmt.Fprintln(os.Stderr, "Warning: git-ai daemon did not respond within 30s, data may be incomplete")
+		}
 		commits, err = r.LogCommits(count, branch, since, until)
 		if err != nil {
 			return fmt.Errorf("git log: %w", err)

@@ -35,14 +35,24 @@ func getOriginURL(r *git.Runner) (string, error) {
 }
 
 func extractProjectName(originURL string) string {
-	url := originURL
-	url = strings.TrimSuffix(url, ".git")
+	url := strings.TrimSuffix(originURL, ".git")
 
-	if idx := strings.LastIndexByte(url, '/'); idx >= 0 {
-		url = url[idx+1:]
+	// URL with scheme: https://, http://, ssh://, git://
+	if idx := strings.Index(url, "://"); idx >= 0 {
+		url = url[idx+3:]
+		if atIdx := strings.IndexByte(url, '@'); atIdx >= 0 {
+			url = url[atIdx+1:]
+		}
+		return url
 	}
-	if idx := strings.LastIndexByte(url, ':'); idx >= 0 {
-		url = url[idx+1:]
+
+	// SCP-style: [user@]host:path → host/path
+	if parts := strings.SplitN(url, ":", 2); len(parts) == 2 {
+		host := parts[0]
+		if atIdx := strings.IndexByte(host, '@'); atIdx >= 0 {
+			host = host[atIdx+1:]
+		}
+		return host + "/" + parts[1]
 	}
 
 	return url

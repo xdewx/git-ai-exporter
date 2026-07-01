@@ -8,7 +8,7 @@ import (
 )
 
 func TestProcessRunning_NonExistent(t *testing.T) {
-	if processRunning("this-process-should-not-exist-x7k9m2") {
+	if ProcessRunning("this-process-should-not-exist-x7k9m2") {
 		t.Fatal("expected false for non-existent process")
 	}
 }
@@ -33,8 +33,8 @@ func TestProcessNamesAreString(t *testing.T) {
 			if name == "" {
 				t.Fatal("current process name is empty")
 			}
-			if !processRunning(name) {
-				t.Fatalf("processRunning(%q) should find current process", name)
+			if !ProcessRunning(name) {
+				t.Fatalf("ProcessRunning(%q) should find current process", name)
 			}
 			found = true
 			break

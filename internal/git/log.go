@@ -72,17 +72,20 @@ func (r *Runner) LogCommits(count int, branch, since, until string) ([]CommitRaw
 	return commits, nil
 }
 
-func (r *Runner) WaitForNote(timeout time.Duration) {
+func (r *Runner) WaitForNote(timeout time.Duration) bool {
 	before, _ := r.Run("rev-parse", "refs/notes/ai")
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
 		after, err := r.Run("rev-parse", "refs/notes/ai")
 		if err == nil && after != "" && after != before {
-			return
+			return true
 		}
 		time.Sleep(100 * time.Millisecond)
 	}
+	return false
 }
+
+
 
 func fmtCount(n int) string {
 	if n == 0 {

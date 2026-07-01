@@ -57,7 +57,7 @@ func (r *Runner) CheckDaemon() error {
 			"  git-ai bg restart")
 	}
 
-	if processRunning("git-ai") {
+	if ProcessRunning("git-ai") {
 		return nil
 	}
 
@@ -70,7 +70,7 @@ func (r *Runner) CheckDaemon() error {
 		}
 	}
 
-	if !processRunning("git-ai") {
+	if !ProcessRunning("git-ai") {
 		return fmt.Errorf("git-ai daemon failed to start.\n" +
 			"Try manually:\n" +
 			"  git-ai bg restart\n" +
@@ -83,11 +83,12 @@ func (r *Runner) CheckDaemon() error {
 	return nil
 }
 
-func processRunning(name string) bool {
+func ProcessRunning(name string) bool {
 	procs, err := process.Processes()
 	if err != nil {
 		return false
 	}
+	name = strings.TrimSuffix(name, ".exe")
 	for _, p := range procs {
 		n, err := p.Name()
 		if err != nil {
