@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"runtime"
 	"strings"
+
+	"github.com/shirou/gopsutil/v4/process"
 )
 
 type Runner struct {
@@ -81,11 +82,15 @@ func (r *Runner) CheckDaemon() error {
 }
 
 func processRunning(name string) bool {
-	if runtime.GOOS == "windows" {
-		cmd := exec.Command("powershell", "-NoProfile", "-Command",
-			"Get-Process '"+name+"' -ErrorAction SilentlyContinue")
-		return cmd.Run() == nil
+	procs, err := process.Processes()
+	if err != nil {
+		return false
 	}
-	out, err := exec.Command("pgrep", "-x", name).Output()
-	return err == nil && len(out) > 0
+	for _, p := range procs {
+		n, err := p.Name()
+		if err == nil && n == name {
+			return true
+		}
+	}
+	return false
 }

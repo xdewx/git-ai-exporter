@@ -49,6 +49,7 @@ func ParseNote(noteContent string) ParsedNote {
 					File:      currentFile,
 					LineStart: m[0],
 					LineEnd:   m[1],
+					IsAI:      isAISession(trimmed),
 				})
 			}
 		}
@@ -68,6 +69,17 @@ func ParseNote(noteContent string) ParsedNote {
 		Entries:  entries,
 		Sessions: sessions,
 	}
+}
+
+func isAISession(s string) bool {
+	parts := strings.Fields(s)
+	if len(parts) < 2 {
+		return true
+	}
+	if strings.HasPrefix(parts[0], "h_") {
+		return false
+	}
+	return true
 }
 
 func leadingSpaces(s string) int {

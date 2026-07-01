@@ -4,6 +4,7 @@ type NoteEntry struct {
 	File      string
 	LineStart int
 	LineEnd   int
+	IsAI      bool
 }
 
 type ParsedNote struct {
