@@ -1,0 +1,21 @@
+internal/git/git_test.go
+  s_afb9387bd20a69::t_80daf6674a8b76 28
+  s_afb9387bd20a69::t_0a974d9999f6b0 1-5,8-15,18-20,27,32,41-42,45-46
+  s_afb9387bd20a69::t_34895fd34326e7 6-7,16-17,21-26,29-31,33-40,43-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "b39d3d58871639220b3d42372b5f91d92b8e7b69",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
