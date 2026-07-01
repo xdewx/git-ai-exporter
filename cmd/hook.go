@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/xdewx/git-ai-exporter/internal/git"
 )
 
 //go:embed post-commit.sh
 var hookScript string
+
+const hookSig = "git-ai-exporter post-commit hook"
 
 func doInstallHook(r *git.Runner) error {
 	hookDir, err := r.Run("rev-parse", "--git-dir")
@@ -23,6 +26,19 @@ func doInstallHook(r *git.Runner) error {
 
 	if err := os.MkdirAll(filepath.Dir(hookPath), 0755); err != nil {
 		return fmt.Errorf("create hooks dir: %w", err)
+	}
+
+	if existing, err := os.ReadFile(hookPath); err == nil {
+		content := string(existing)
+		if strings.Contains(content, hookSig) {
+			fmt.Fprintln(os.Stderr, "Updating existing git-ai-exporter hook")
+		} else {
+			bakPath := hookPath + ".bak"
+			if err := os.WriteFile(bakPath, existing, 0644); err != nil {
+				return fmt.Errorf("backup existing hook: %w", err)
+			}
+			fmt.Fprintf(os.Stderr, "Existing hook backed up to: %s\n", bakPath)
+		}
 	}
 
 	if err := os.WriteFile(hookPath, []byte(hookScript), 0755); err != nil {

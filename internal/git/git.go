@@ -52,9 +52,9 @@ func (e *CmdError) Error() string {
 func (r *Runner) CheckDaemon() error {
 	_, err := r.Run("show-ref", "refs/notes/ai")
 	if err != nil {
-		return fmt.Errorf("git-ai daemon not started yet (no AI notes found).\n" +
+		return fmt.Errorf("git-ai daemon has never run (no AI notes ref found).\n" +
 			"Start it with:\n" +
-			"  git-ai bg start")
+			"  git-ai bg restart")
 	}
 
 	if processRunning("git-ai") {
@@ -62,16 +62,18 @@ func (r *Runner) CheckDaemon() error {
 	}
 
 	fmt.Fprintln(os.Stderr, "git-ai daemon not running, starting...")
-	if _, err := RunCmd(r.Dir, "git-ai", "bg", "start"); err != nil {
-		return fmt.Errorf("failed to start git-ai daemon:\n" +
-			"  %s\n" +
-			"Try manually:\n" +
-			"  git-ai bg start", strings.TrimSpace(err.Error()))
+
+	cmds := []string{"restart", "start"}
+	for _, cmd := range cmds {
+		if _, err := RunCmd(r.Dir, "git-ai", "bg", cmd); err == nil {
+			break
+		}
 	}
 
 	if !processRunning("git-ai") {
 		return fmt.Errorf("git-ai daemon failed to start.\n" +
 			"Try manually:\n" +
+			"  git-ai bg restart\n" +
 			"  git-ai bg start\n" +
 			"Check status:\n" +
 			"  git-ai bg status")
@@ -88,7 +90,11 @@ func processRunning(name string) bool {
 	}
 	for _, p := range procs {
 		n, err := p.Name()
-		if err == nil && n == name {
+		if err != nil {
+			continue
+		}
+		n = strings.TrimSuffix(n, ".exe")
+		if n == name {
 			return true
 		}
 	}
