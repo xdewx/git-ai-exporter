@@ -19,4 +19,10 @@ fi
 
 COUNT=${COUNT:-1}
 
-git-ai-exporter -r "$(git rev-parse --show-toplevel)" -n "$COUNT" --push --url "$URL" --token "$TOKEN" > /dev/null 2>&1
+ERR=$(git-ai-exporter -r "$(git rev-parse --show-toplevel)" -n "$COUNT" --push --url "$URL" --token "$TOKEN" 2>&1 >/dev/null)
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "  git-ai-exporter: failed to push stats"
+  echo "  $ERR"
+  echo ""
+fi

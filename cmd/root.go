@@ -33,7 +33,8 @@ var rootCmd = &cobra.Command{
 
 By default, outputs JSON to stdout. Use --push to send data to a git-ai-dashboard instance.
 Use --install-hook to set up automatic push on every commit.`,
-	RunE: runExport,
+	SilenceUsage: true,
+	RunE:         runExport,
 }
 
 func Execute() {
@@ -74,8 +75,18 @@ func runExport(_ *cobra.Command, _ []string) error {
 		return doInstallHook(r)
 	}
 
-	if push && (pushURL == "" || pushToken == "") {
-		return fmt.Errorf("--url and --token are required with --push")
+	if push {
+		if pushURL == "" || pushToken == "" {
+			return fmt.Errorf("--url and --token are required with --push")
+		}
+		absDir, err := resolvePath(repoDir)
+		if err != nil {
+			return fmt.Errorf("resolve repo path: %w", err)
+		}
+		r := git.NewRunner(absDir)
+		if err := r.CheckDaemon(); err != nil {
+			return err
+		}
 	}
 
 	absDir, err := resolvePath(repoDir)
