@@ -1,0 +1,39 @@
+internal/parser/note.go
+  s_2057872bf4d435::t_22c6aef31d0314 74-84
+  s_2057872bf4d435::t_fbb9cee946c04f 52
+internal/parser/tool.go
+  s_2057872bf4d435::t_80d7697df27c31 46-48
+internal/parser/types.go
+  s_2057872bf4d435::t_30bf9447fc8d6a 7
+internal/git/git.go
+  s_afb9387bd20a69::t_43cc1ed0ef34fa 85-93,95
+  s_afb9387bd20a69::t_4ca189fac3540c 8-9
+go.mod
+  s_afb9387bd20a69::t_e4768a4ae6917d 6-7,9-11,14-17
+go.sum
+  s_afb9387bd20a69::t_2c9f80adfab747 2-6,9-12,14-15,20-25,27-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "d30a5388eeaa68b5b8122f582106c95937a9dc44",
+  "prompts": {},
+  "sessions": {
+    "s_2057872bf4d435": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3048970ffe0Pw4oGS0qVvhx9",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    },
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
