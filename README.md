@@ -44,6 +44,24 @@ git-ai-exporter --push --url https://dash.example.com/api/collect --token your-t
 | `--token` | | API token |
 | `--hostname` | hostname | Client hostname identifier |
 
+## Git Hook (auto-push on commit)
+
+Install a post-commit hook to automatically push stats every time you commit:
+
+```bash
+# One-time setup
+git-ai-exporter --install-hook
+
+# Configure dashboard connection (per repo)
+git config hooks.ai-exporter-url https://dash.example.com/api/collect
+git config hooks.ai-exporter-token your-token
+
+# Optional: push more than 1 commit per hook
+git config hooks.ai-exporter-count 5
+```
+
+After setup, every `git commit` will silently push the latest commit's stats to the dashboard.
+
 ## Build from source
 
 ```bash

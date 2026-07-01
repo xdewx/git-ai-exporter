@@ -13,16 +13,17 @@ import (
 )
 
 var (
-	repoDir  string
-	branch   string
-	count    int
-	since    string
-	until    string
-	outFmt   string
-	push     bool
-	pushURL  string
-	pushToken string
-	hostname string
+	repoDir     string
+	branch      string
+	count       int
+	since       string
+	until       string
+	outFmt      string
+	push        bool
+	pushURL     string
+	pushToken   string
+	hostname    string
+	installHook bool
 )
 
 var rootCmd = &cobra.Command{
@@ -30,7 +31,8 @@ var rootCmd = &cobra.Command{
 	Short: "Export git-ai commit statistics",
 	Long: `Parse git-ai notes from a git repository and output structured data.
 
-By default, outputs JSON to stdout. Use --push to send data to a git-ai-dashboard instance.`,
+By default, outputs JSON to stdout. Use --push to send data to a git-ai-dashboard instance.
+Use --install-hook to set up automatic push on every commit.`,
 	RunE: runExport,
 }
 
@@ -51,6 +53,7 @@ func init() {
 	rootCmd.Flags().StringVar(&pushURL, "url", "", "Dashboard collect API URL (required with --push)")
 	rootCmd.Flags().StringVar(&pushToken, "token", "", "API token (required with --push)")
 	rootCmd.Flags().StringVar(&hostname, "hostname", defaultHostname(), "Client hostname identifier")
+	rootCmd.Flags().BoolVar(&installHook, "install-hook", false, "Install post-commit hook and exit")
 }
 
 func defaultHostname() string {
@@ -62,6 +65,15 @@ func defaultHostname() string {
 }
 
 func runExport(_ *cobra.Command, _ []string) error {
+	if installHook {
+		absDir, err := resolvePath(repoDir)
+		if err != nil {
+			return fmt.Errorf("resolve repo path: %w", err)
+		}
+		r := git.NewRunner(absDir)
+		return doInstallHook(r)
+	}
+
 	if push && (pushURL == "" || pushToken == "") {
 		return fmt.Errorf("--url and --token are required with --push")
 	}
