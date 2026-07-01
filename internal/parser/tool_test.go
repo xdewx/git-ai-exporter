@@ -74,12 +74,28 @@ func TestGetToolModel_NoAgentID(t *testing.T) {
 
 func TestCalculateAiAdditions(t *testing.T) {
 	entries := []NoteEntry{
-		{File: "a.go", LineStart: 1, LineEnd: 5},    // 5 lines
-		{File: "a.go", LineStart: 10, LineEnd: 12},  // 3 lines
-		{File: "b.go", LineStart: 1, LineEnd: 1},    // 1 line
+		{File: "a.go", LineStart: 1, LineEnd: 5, IsAI: true},     // 5 AI lines
+		{File: "a.go", LineStart: 10, LineEnd: 12, IsAI: true},   // 3 AI lines
+		{File: "b.go", LineStart: 1, LineEnd: 1},                 // 1 human line
 	}
-	if total := CalculateAiAdditions(entries); total != 9 {
-		t.Fatalf("expected 9, got %d", total)
+	if total := CalculateAiAdditions(entries); total != 8 {
+		t.Fatalf("expected 8 AI lines, got %d", total)
+	}
+	if total := CalculateHumanAdditions(entries); total != 1 {
+		t.Fatalf("expected 1 human line, got %d", total)
+	}
+}
+
+func TestCalculateAiAdditions_AllHuman(t *testing.T) {
+	entries := []NoteEntry{
+		{File: "a.go", LineStart: 1, LineEnd: 5},
+		{File: "a.go", LineStart: 10, LineEnd: 15},
+	}
+	if total := CalculateAiAdditions(entries); total != 0 {
+		t.Fatalf("expected 0 AI lines for human entries, got %d", total)
+	}
+	if total := CalculateHumanAdditions(entries); total != 11 {
+		t.Fatalf("expected 11 human lines, got %d", total)
 	}
 }
 

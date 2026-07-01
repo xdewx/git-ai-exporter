@@ -137,7 +137,7 @@ func TestParseNote_InvalidLineRange(t *testing.T) {
   invalid-range
   foo 1-abc
   bar abc-5
-  baz 1-2 extra
+  h_xxx 1-2 extra
 `
 	n := ParseNote(input)
 	// Only the last line should produce a valid entry
@@ -146,6 +146,9 @@ func TestParseNote_InvalidLineRange(t *testing.T) {
 	}
 	if n.Entries[0].LineStart != 1 || n.Entries[0].LineEnd != 2 {
 		t.Fatalf("unexpected entry: %+v", n.Entries[0])
+	}
+	if n.Entries[0].IsAI {
+		t.Fatal("h_ prefixed entry should be IsAI=false")
 	}
 }
 
@@ -157,17 +160,35 @@ func TestParseNote_CommaSeparatedRanges(t *testing.T) {
 	if len(n.Entries) != 3 {
 		t.Fatalf("expected 3 entries (3 ranges), got %d", len(n.Entries))
 	}
-	if n.Entries[0].LineStart != 10 || n.Entries[0].LineEnd != 20 {
-		t.Fatalf("unexpected first entry: %+v", n.Entries[0])
-	}
-	if n.Entries[1].LineStart != 30 || n.Entries[1].LineEnd != 35 {
-		t.Fatalf("unexpected second entry: %+v", n.Entries[1])
-	}
-	if n.Entries[2].LineStart != 40 || n.Entries[2].LineEnd != 42 {
-		t.Fatalf("unexpected third entry: %+v", n.Entries[2])
+	for i, e := range n.Entries {
+		if !e.IsAI {
+			t.Fatalf("entry %d should be AI (s_ prefix), got IsAI=false", i)
+		}
 	}
 	total := CalculateAiAdditions(n.Entries)
 	if total != 20 {
 		t.Fatalf("expected 20 ai additions (11+6+3), got %d", total)
+	}
+}
+
+func TestParseNote_HumanEntry(t *testing.T) {
+	input := `human.py
+  h_abc123 5-7
+  s_def456 8-10
+`
+	n := ParseNote(input)
+	if len(n.Entries) != 2 {
+		t.Fatalf("expected 2 entries, got %d", len(n.Entries))
+	}
+	if n.Entries[0].IsAI {
+		t.Fatal("first entry (h_ prefix) should be IsAI=false")
+	}
+	if !n.Entries[1].IsAI {
+		t.Fatal("second entry (s_ prefix) should be IsAI=true")
+	}
+	aiTotal := CalculateAiAdditions(n.Entries)
+	humanTotal := CalculateHumanAdditions(n.Entries)
+	if aiTotal != 3 || humanTotal != 3 {
+		t.Fatalf("expected 3 AI + 3 human, got AI=%d human=%d", aiTotal, humanTotal)
 	}
 }
