@@ -1,0 +1,21 @@
+cmd/post-commit.sh
+  s_afb9387bd20a69::t_60b09f5fba7a2c 9-17,20-23
+cmd/hook.go
+  s_afb9387bd20a69::t_81a4bc212de76c 25-26,28,37-39,41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "f7abee817d4b802dc9547885ab64baaf20227e1c",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
