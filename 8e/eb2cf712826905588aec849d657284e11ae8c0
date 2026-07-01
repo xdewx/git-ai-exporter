@@ -1,0 +1,30 @@
+cmd/root.go
+  s_afb9387bd20a69::t_9331952cbd7593 78-89
+  s_afb9387bd20a69::t_aca30a91ff42c3 36-37
+cmd/post-commit.sh
+  s_afb9387bd20a69::t_b3a14221293da2 22,26
+  s_afb9387bd20a69::t_af339febe2246f 24-25,27
+  s_afb9387bd20a69::t_1d13e0ea742b6b 23,28
+internal/git/git.go
+  s_afb9387bd20a69::t_6e607dab1e68e1 64-66
+  s_afb9387bd20a69::t_b195c641f1fcf0 7
+  s_afb9387bd20a69::t_a09dcbdd2ec925 44,46-47,49,51,59,70
+  s_afb9387bd20a69::t_cef60a596844fb 45,48,50,52-58,60-62,67
+  s_afb9387bd20a69::t_a7f86e6b665742 63,68-69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "8eeb2cf712826905588aec849d657284e11ae8c0",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
