@@ -1,0 +1,24 @@
+internal/parser/note_test.go
+  s_afb9387bd20a69::t_4def0da3a1c773 143,151-169,172
+  s_afb9387bd20a69::t_85197156d8c08d 170-171
+  s_afb9387bd20a69::t_8794caf59fdd8a 173
+internal/parser/note.go
+  s_afb9387bd20a69::t_d17329fe8c00e3 100,103-115,121,131,139,142
+  s_afb9387bd20a69::t_a9d2b99b534d3e 47-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "c83e16d61925f34e0ab2856d0c901ae3b4d68edc",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
