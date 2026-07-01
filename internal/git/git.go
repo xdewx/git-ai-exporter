@@ -47,13 +47,15 @@ func (r *Runner) CheckDaemon() error {
 	if err != nil {
 		return fmt.Errorf("git-ai daemon not running (no AI notes ref found).\n" +
 			"Make sure git-ai is running before committing:\n" +
-			"  git ai daemon")
+			"  git-ai bg start")
 	}
 
 	if !processRunning("git-ai") {
 		return fmt.Errorf("git-ai daemon process not found.\n" +
 			"It may have exited unexpectedly. Start it with:\n" +
-			"  git ai daemon")
+			"  git-ai bg start\n" +
+			"Check status:\n" +
+			"  git-ai bg status")
 	}
 
 	return nil
