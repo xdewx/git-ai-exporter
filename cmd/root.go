@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/xdewx/git-ai-exporter/internal/git"
@@ -122,6 +123,15 @@ func runExport(_ *cobra.Command, _ []string) error {
 	if len(commits) == 0 {
 		fmt.Fprintln(os.Stderr, "No commits found")
 		return nil
+	}
+
+	if push && commits[0].NoteContent == "" {
+		fmt.Fprintln(os.Stderr, "Waiting for git-ai daemon to process latest commit...")
+		r.WaitForNote(10 * time.Second)
+		commits, err = r.LogCommits(count, branch, since, until)
+		if err != nil {
+			return fmt.Errorf("git log: %w", err)
+		}
 	}
 
 	st, err := r.Numstat(branch, since, until, count)

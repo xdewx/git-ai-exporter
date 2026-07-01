@@ -171,6 +171,22 @@ func TestParseNote_CommaSeparatedRanges(t *testing.T) {
 	}
 }
 
+func TestParseNote_SingleLineRange(t *testing.T) {
+	input := `file.py
+  s_xxx 37
+`
+	n := ParseNote(input)
+	if len(n.Entries) != 1 {
+		t.Fatalf("expected 1 entry, got %d", len(n.Entries))
+	}
+	if n.Entries[0].LineStart != 37 || n.Entries[0].LineEnd != 37 {
+		t.Fatalf("expected 37-37, got %d-%d", n.Entries[0].LineStart, n.Entries[0].LineEnd)
+	}
+	if total := CalculateAiAdditions(n.Entries); total != 1 {
+		t.Fatalf("expected 1 ai addition, got %d", total)
+	}
+}
+
 func TestParseNote_HumanEntry(t *testing.T) {
 	input := `human.py
   h_abc123 5-7

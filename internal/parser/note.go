@@ -103,8 +103,20 @@ func parseLineRanges(s string) [][]int {
 func parseRangeStr(s string) [][]int {
 	var result [][]int
 	for _, seg := range strings.Split(s, ",") {
+		seg = strings.TrimSpace(seg)
+		if seg == "" {
+			continue
+		}
+
 		sep := strings.IndexByte(seg, '-')
-		if sep <= 0 || sep >= len(seg)-1 {
+		if sep < 0 {
+			// single line number (e.g. "37")
+			if n := parseDigits(seg); n > 0 {
+				result = append(result, []int{n, n})
+			}
+			continue
+		}
+		if sep == 0 || sep >= len(seg)-1 {
 			continue
 		}
 
@@ -132,4 +144,15 @@ func parseRangeStr(s string) [][]int {
 		}
 	}
 	return result
+}
+
+func parseDigits(s string) int {
+	n := 0
+	for _, r := range s {
+		if !unicode.IsDigit(r) {
+			return -1
+		}
+		n = n*10 + int(r-'0')
+	}
+	return n
 }

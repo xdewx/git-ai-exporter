@@ -3,6 +3,7 @@ package git
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 const recordSep = "\u27D0"
@@ -69,6 +70,18 @@ func (r *Runner) LogCommits(count int, branch, since, until string) ([]CommitRaw
 	}
 
 	return commits, nil
+}
+
+func (r *Runner) WaitForNote(timeout time.Duration) {
+	before, _ := r.Run("rev-parse", "refs/notes/ai")
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		time.Sleep(500 * time.Millisecond)
+		after, err := r.Run("rev-parse", "refs/notes/ai")
+		if err == nil && after != before {
+			return
+		}
+	}
 }
 
 func fmtCount(n int) string {
