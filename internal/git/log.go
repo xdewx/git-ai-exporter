@@ -76,11 +76,11 @@ func (r *Runner) WaitForNote(timeout time.Duration) {
 	before, _ := r.Run("rev-parse", "refs/notes/ai")
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
-		time.Sleep(500 * time.Millisecond)
 		after, err := r.Run("rev-parse", "refs/notes/ai")
-		if err == nil && after != before {
+		if err == nil && after != "" && after != before {
 			return
 		}
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 
