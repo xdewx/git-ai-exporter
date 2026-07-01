@@ -149,10 +149,10 @@ func runExport(_ *cobra.Command, _ []string) error {
 
 	if push && commits[0].NoteContent == "" {
 		fmt.Fprintln(os.Stderr, "Waiting for git-ai daemon to process latest commit...")
-		if r.WaitForNote(60 * time.Second) {
+		if r.WaitForNote(commits[0].SHA, 3*time.Minute) {
 			fmt.Fprintln(os.Stderr, "git-ai daemon processed the commit")
 		} else {
-			fmt.Fprintln(os.Stderr, "Warning: git-ai daemon did not respond within 30s, data may be incomplete")
+			fmt.Fprintln(os.Stderr, "Warning: git-ai daemon not running or timed out, data may be incomplete")
 		}
 		commits, err = r.LogCommits(count, branch, since, until)
 		if err != nil {

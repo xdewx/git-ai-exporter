@@ -72,13 +72,15 @@ func (r *Runner) LogCommits(count int, branch, since, until string) ([]CommitRaw
 	return commits, nil
 }
 
-func (r *Runner) WaitForNote(timeout time.Duration) bool {
-	before, _ := r.Run("rev-parse", "refs/notes/ai")
+func (r *Runner) WaitForNote(commitSHA string, timeout time.Duration) bool {
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
-		after, err := r.Run("rev-parse", "refs/notes/ai")
-		if err == nil && after != "" && after != before {
+		out, err := r.Run("notes", "--ref=ai", "show", commitSHA)
+		if err == nil && strings.TrimSpace(out) != "" {
 			return true
+		}
+		if !ProcessRunning("git-ai") {
+			return false
 		}
 		time.Sleep(100 * time.Millisecond)
 	}
