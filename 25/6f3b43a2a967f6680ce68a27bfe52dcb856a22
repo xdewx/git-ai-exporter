@@ -1,0 +1,31 @@
+cmd/root.go
+  s_afb9387bd20a69::t_4a93a4c7a6e46a 128-129,131-136
+  s_afb9387bd20a69::t_b21bc477beb906 7
+  s_afb9387bd20a69::t_b846235d764f86 130
+internal/parser/note.go
+  s_afb9387bd20a69::t_6537a27b602022 106-110,112-119,148-157
+  s_afb9387bd20a69::t_204d4a7de4e283 158
+internal/parser/note_test.go
+  s_afb9387bd20a69::t_861dd86e225d25 174-189
+cmd/post-commit.sh
+  s_afb9387bd20a69::t_fb4d92e06e0423 7-18,20,22-27
+internal/git/log.go
+  s_afb9387bd20a69::t_a19809214db8c4 75-76,79-81
+  s_afb9387bd20a69::t_d4ad9de747dfdd 77-78,82-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "256f3b43a2a967f6680ce68a27bfe52dcb856a22",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
