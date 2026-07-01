@@ -1,0 +1,23 @@
+internal/git/git.go
+  s_afb9387bd20a69::t_1f9de314aa0a2a 65-70,76
+  s_afb9387bd20a69::t_f025af384921ad 93-97
+cmd/hook.go
+  s_afb9387bd20a69::t_6892159473cb8e 8,16-17,31-41
+  s_afb9387bd20a69::t_8d38e1e051d710 42-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "c9ebef63fbf8cd11ea572ec0659568f1fd06d8fa",
+  "prompts": {},
+  "sessions": {
+    "s_afb9387bd20a69": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0e3b26696ffeX8KiEvh28gjULJ",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
