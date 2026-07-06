@@ -109,14 +109,24 @@ func runExport(_ *cobra.Command, _ []string) error {
 	}
 
 	if push {
-		if pushURL == "" || pushToken == "" {
-			return fmt.Errorf("--url and --token are required with --push")
-		}
 		absDir, err := resolvePath(repoDir)
 		if err != nil {
 			return fmt.Errorf("resolve repo path: %w", err)
 		}
 		r := git.NewRunner(absDir)
+		if pushURL == "" {
+			if v, err := getGitConfig(r, "hooks.ai-exporter-url"); err == nil {
+				pushURL = v
+			}
+		}
+		if pushToken == "" {
+			if v, err := getGitConfig(r, "hooks.ai-exporter-token"); err == nil {
+				pushToken = v
+			}
+		}
+		if pushURL == "" || pushToken == "" {
+			return fmt.Errorf("--url and --token are required with --push (or set hooks.ai-exporter-url and hooks.ai-exporter-token via git config)")
+		}
 		if err := r.CheckDaemon(); err != nil {
 			return err
 		}

@@ -26,12 +26,16 @@ func getCurrentBranch(r *git.Runner) (string, error) {
 	return strings.TrimSpace(out), nil
 }
 
-func getOriginURL(r *git.Runner) (string, error) {
-	out, err := r.Run("config", "--get", "remote.origin.url")
+func getGitConfig(r *git.Runner, key string) (string, error) {
+	out, err := r.Run("config", "--get", key)
 	if err != nil {
 		return "", err
 	}
 	return strings.TrimSpace(out), nil
+}
+
+func getOriginURL(r *git.Runner) (string, error) {
+	return getGitConfig(r, "remote.origin.url")
 }
 
 func extractProjectName(originURL string) string {
