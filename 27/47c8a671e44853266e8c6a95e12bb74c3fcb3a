@@ -1,0 +1,37 @@
+cmd/detach_windows.go
+  s_09c2ce1466d5e9::t_06c5bbf7da86b7 26-35
+  s_09c2ce1466d5e9::t_2e1f790162cef9 36-38
+cmd/detach_unix.go
+  s_09c2ce1466d5e9::t_46c62a89411ce8 26-35
+  s_09c2ce1466d5e9::t_2a8b6af816fb33 36-37
+cmd/guard.go
+  s_09c2ce1466d5e9::t_8b077c979bba97 101-105
+  s_09c2ce1466d5e9::t_c49629dc516cd4 98-100
+  s_09c2ce1466d5e9::t_563648d1ea7e5c 106-108
+cmd/root.go
+  s_0dfc45c313b50a::t_835491b9585e88 31,72,113-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2747c8a671e44853266e8c6a95e12bb74c3fcb3a",
+  "prompts": {},
+  "sessions": {
+    "s_09c2ce1466d5e9": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0c89532f2ffeDIonLtaoow7z1g",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    },
+    "s_0dfc45c313b50a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "484b0d1e-f3ab-4624-a668-2ce6aebad776",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
