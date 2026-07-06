@@ -22,7 +22,7 @@ COUNT=${COUNT:-1}
 HOOK_DIR=$(dirname "$0")
 LOG="$HOOK_DIR/git-ai-exporter.log"
 
-nohup git-ai-exporter -r "$(git rev-parse --show-toplevel)" -n "$COUNT" --push --url "$URL" --token "$TOKEN" >/dev/null 2>>"$LOG" &
+git-ai-exporter -r "$(git rev-parse --show-toplevel)" -n "$COUNT" --push --detach --url "$URL" --token "$TOKEN" >/dev/null 2>>"$LOG"
 
 LOCAL_HOOK=$HOOK_DIR/post-commit.local
 if [ -x "$LOCAL_HOOK" ]; then

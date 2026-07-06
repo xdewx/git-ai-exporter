@@ -28,6 +28,7 @@ var (
 	guardMode      bool
 	noGuard        bool
 	uninstallGuard bool
+	detach         bool
 )
 
 var (
@@ -68,6 +69,7 @@ func init() {
 	rootCmd.Flags().BoolVar(&noGuard, "no-guard", false, "Skip guard installation with --install-hook")
 	rootCmd.Flags().BoolVar(&uninstallGuard, "uninstall-guard", false, "Remove guard auto-start service")
 	rootCmd.Flags().BoolVar(&doUpdate, "update", false, "Update to latest version from GitHub")
+	rootCmd.Flags().BoolVar(&detach, "detach", false, "Run push in background and exit immediately")
 }
 
 func defaultHostname() string {
@@ -106,6 +108,10 @@ func runExport(_ *cobra.Command, _ []string) error {
 
 	if doUpdate {
 		return doUpdateFn()
+	}
+
+	if detach {
+		return doDetach()
 	}
 
 	if push {
