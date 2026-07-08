@@ -27,6 +27,7 @@ type ReportOutput struct {
 	ProjectName string         `json:"projectName"`
 	Branch      string         `json:"branch"`
 	Hostname    string         `json:"hostname"`
+	Incomplete  bool           `json:"incomplete,omitempty"`
 	Commits     []CommitOutput `json:"commits"`
 }
 

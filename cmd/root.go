@@ -163,12 +163,14 @@ func runExport(_ *cobra.Command, _ []string) error {
 		return nil
 	}
 
+	incomplete := false
 	if push && commits[0].NoteContent == "" {
 		fmt.Fprintln(os.Stderr, "Waiting for git-ai daemon to process latest commit...")
 		if r.WaitForNote(commits[0].SHA, 3*time.Minute) {
 			fmt.Fprintln(os.Stderr, "git-ai daemon processed the commit")
 		} else {
 			fmt.Fprintln(os.Stderr, "Warning: git-ai daemon not running or timed out, data may be incomplete")
+			incomplete = true
 		}
 		commits, err = r.LogCommits(count, branch, since, until)
 		if err != nil {
@@ -241,6 +243,7 @@ func runExport(_ *cobra.Command, _ []string) error {
 		ProjectName: extractProjectName(originURL),
 		Branch:      branch,
 		Hostname:    hostname,
+		Incomplete:  incomplete,
 		Commits:     outputCommits,
 	}
 
