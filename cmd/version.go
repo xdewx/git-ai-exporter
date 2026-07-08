@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -15,6 +16,12 @@ func doUpdateFn() error {
 	if Version == "dev" {
 		return fmt.Errorf("version is dev (not built with ldflags). Use --update only on release binaries")
 	}
+
+	log.Println("Stopping guard service...")
+	if err := stopGuard(); err != nil {
+		log.Printf("Warning: failed to stop guard: %v", err)
+	}
+
 	ver := strings.TrimPrefix(Version, "v")
 	v, err := semver.Parse(ver)
 	if err != nil {
@@ -29,5 +36,11 @@ func doUpdateFn() error {
 	} else {
 		fmt.Fprintf(os.Stderr, "Updated to %s\n", latest.Version)
 	}
+
+	log.Println("Restarting guard service...")
+	if err := restartGuard(); err != nil {
+		log.Printf("Warning: failed to restart guard: %v", err)
+	}
+
 	return nil
 }

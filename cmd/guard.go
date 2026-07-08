@@ -53,6 +53,25 @@ func runGuard() error {
 	return s.Run()
 }
 
+func stopGuard() error {
+	s, err := newService()
+	if err != nil {
+		return err
+	}
+	return s.Stop()
+}
+
+func restartGuard() error {
+	s, err := newService()
+	if err != nil {
+		return err
+	}
+	if err := s.Stop(); err != nil {
+		log.Printf("stop guard before restart: %v", err)
+	}
+	return s.Start()
+}
+
 func doInstallGuard() error {
 	s, err := newService()
 	if err != nil {
