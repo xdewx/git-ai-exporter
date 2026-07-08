@@ -1,0 +1,22 @@
+cmd/root.go
+  s_3c3593ad42d4e9::t_d4acd9b120d221 166,173
+  s_3c3593ad42d4e9::t_a59eaef6cdd080 246
+internal/output/formatter.go
+  s_3c3593ad42d4e9::t_d2c5d64fce76b8 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "707895b458216cde45e4844afefc9c722cd428f7",
+  "prompts": {},
+  "sessions": {
+    "s_3c3593ad42d4e9": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0bf276c6cffejFOs5Bx7v5JyS6",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
