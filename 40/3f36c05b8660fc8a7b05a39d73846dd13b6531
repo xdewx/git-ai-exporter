@@ -1,0 +1,25 @@
+cmd/post-commit.sh
+  s_3c3593ad42d4e9::t_8e46f391bfbccb 4-19,21-47
+cmd/hook.go
+  s_3c3593ad42d4e9::t_12ac9347fd12b0 50,52-62
+cmd/guard.go
+  s_3c3593ad42d4e9::t_817c972fe4b9d2 56-74
+cmd/version.go
+  s_3c3593ad42d4e9::t_081add44674b9e 5,19-24,39-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "403f36c05b8660fc8a7b05a39d73846dd13b6531",
+  "prompts": {},
+  "sessions": {
+    "s_3c3593ad42d4e9": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0bf276c6cffejFOs5Bx7v5JyS6",
+        "model": "unknown"
+      },
+      "human_author": "xdewx <present150608@sina.com>"
+    }
+  }
+}
