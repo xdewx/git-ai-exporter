@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -32,6 +33,49 @@ func getGitConfig(r *git.Runner, key string) (string, error) {
 		return "", err
 	}
 	return strings.TrimSpace(out), nil
+}
+
+func getGitConfigGlobal(key string) (string, error) {
+	out, err := git.RunCmd("", "git", "config", "--global", "--get", key)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(out), nil
+}
+
+func getGitConfigAll(r *git.Runner, key string) (string, error) {
+	out, err := r.Run("config", "--get", key)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(out), nil
+}
+
+func resolvePushConfig(r *git.Runner) (url, token string, err error) {
+	url, _ = getGitConfig(r, "hooks.ai-exporter-url")
+	token, _ = getGitConfig(r, "hooks.ai-exporter-token")
+	if url != "" && token != "" {
+		return url, token, nil
+	}
+
+	group, _ := getGitConfig(r, "hooks.ai-exporter.group")
+	if group == "" {
+		group = "default"
+	}
+
+	groupURL, _ := getGitConfigGlobal(fmt.Sprintf("hooks.ai-exporter.groups.%s.url", group))
+	groupToken, _ := getGitConfigGlobal(fmt.Sprintf("hooks.ai-exporter.groups.%s.token", group))
+
+	url = strings.TrimSpace(url)
+	if url == "" {
+		url = groupURL
+	}
+	token = strings.TrimSpace(token)
+	if token == "" {
+		token = groupToken
+	}
+
+	return url, token, nil
 }
 
 func getOriginURL(r *git.Runner) (string, error) {
