@@ -3,7 +3,7 @@
 # Installed by `git-ai-exporter --install-hook`
 #
 # Configuration hierarchy (priority high to low):
-#   1. Project-level: hooks.ai-exporter-url / hooks.ai-exporter-token
+#   1. Project-level: hooks.ai-exporter.url / hooks.ai-exporter.token
 #   2. Group-level:   hooks.ai-exporter.group -> hooks.ai-exporter.groups.<group>.url / token
 #   3. Global default: hooks.ai-exporter.groups.default.url / token
 #

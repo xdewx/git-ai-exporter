@@ -29,6 +29,7 @@ var (
 	noGuard        bool
 	uninstallGuard bool
 	detach         bool
+	waitTimeout    time.Duration
 )
 
 var (
@@ -39,10 +40,10 @@ var rootCmd = &cobra.Command{
 	Use:     "git-ai-exporter",
 	Short:   "Export git-ai commit statistics",
 	Version: Version,
-	Long: `Parse git-ai notes from a git repository and output structured data.
-
-By default, outputs JSON to stdout. Use --push to send data to a git-ai-dashboard instance.
-Use --install-hook to set up automatic push on every commit.`,
+	Long: "Parse git-ai notes from a git repository and output structured data.\n\n" +
+		"By default, outputs JSON to stdout. Use --push to send data to a git-ai-dashboard instance.\n" +
+		"Use --install-hook to set up automatic push on every commit.\n\n" +
+		configHelpText,
 	SilenceUsage: true,
 	RunE:         runExport,
 }
@@ -70,6 +71,7 @@ func init() {
 	rootCmd.Flags().BoolVar(&uninstallGuard, "uninstall-guard", false, "Remove guard auto-start service")
 	rootCmd.Flags().BoolVar(&doUpdate, "update", false, "Update to latest version from GitHub")
 	rootCmd.Flags().BoolVar(&detach, "detach", false, "Run push in background and exit immediately")
+	rootCmd.Flags().DurationVar(&waitTimeout, "wait-timeout", 60*time.Second, "Max time to wait for git-ai daemon to process latest commit")
 }
 
 func defaultHostname() string {
@@ -167,7 +169,7 @@ func runExport(_ *cobra.Command, _ []string) error {
 	incomplete := false
 	if push && commits[0].NoteContent == "" {
 		fmt.Fprintln(os.Stderr, "Waiting for git-ai daemon to process latest commit...")
-		if r.WaitForNote(commits[0].SHA, 3*time.Minute) {
+		if r.WaitForNote(commits[0].SHA, waitTimeout) {
 			fmt.Fprintln(os.Stderr, "git-ai daemon processed the commit")
 		} else {
 			fmt.Fprintln(os.Stderr, "Warning: git-ai daemon not running or timed out, data may be incomplete")

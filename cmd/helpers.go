@@ -52,8 +52,14 @@ func getGitConfigAll(r *git.Runner, key string) (string, error) {
 }
 
 func resolvePushConfig(r *git.Runner) (url, token string, err error) {
-	url, _ = getGitConfig(r, "hooks.ai-exporter-url")
-	token, _ = getGitConfig(r, "hooks.ai-exporter-token")
+	url, _ = getGitConfig(r, "hooks.ai-exporter.url")
+	token, _ = getGitConfig(r, "hooks.ai-exporter.token")
+	if url == "" {
+		url, _ = getGitConfig(r, "hooks.ai-exporter-url")
+	}
+	if token == "" {
+		token, _ = getGitConfig(r, "hooks.ai-exporter-token")
+	}
 	if url != "" && token != "" {
 		return url, token, nil
 	}

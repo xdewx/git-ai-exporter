@@ -13,6 +13,28 @@ import (
 //go:embed post-commit.sh
 var hookScript string
 
+const configHelpText = "" +
+	"Priority: project URL/token > group URL/token > default group URL/token\n" +
+	"\n" +
+	"Global config (one-time):\n" +
+	"\n" +
+	"  git config --global hooks.ai-exporter.groups.default.url https://your-dashboard.com/api/collect\n" +
+	"  git config --global hooks.ai-exporter.groups.default.token your-api-token\n" +
+	"\n" +
+	"Per project - join a group:\n" +
+	"\n" +
+	"  git config hooks.ai-exporter.group work\n" +
+	"\n" +
+	"Per project - override completely:\n" +
+	"\n" +
+	"  git config hooks.ai-exporter.url https://custom.com/api/collect\n" +
+	"  git config hooks.ai-exporter.token your-api-token\n" +
+	"\n" +
+	"Optional:\n" +
+	"\n" +
+	"  git config hooks.ai-exporter-count 1     # commits per push (default: 1)\n" +
+	"  git config hooks.ai-exporter-hostname    # override hostname\n"
+
 const hookSig = "git-ai-exporter post-commit hook"
 
 func doInstallHook(r *git.Runner) error {
@@ -47,25 +69,7 @@ func doInstallHook(r *git.Runner) error {
 	}
 
 	fmt.Fprintf(os.Stderr, "Hook installed: %s\n\n", hookPath)
-	fmt.Fprintln(os.Stderr, "Priority: project URL/token > group URL/token > default group URL/token")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "Global config (one-time):")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "  git config --global hooks.ai-exporter.groups.default.url https://your-dashboard.com/api/collect")
-	fmt.Fprintln(os.Stderr, "  git config --global hooks.ai-exporter.groups.default.token your-api-token")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "Per project - join a group:")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "  git config hooks.ai-exporter.group work")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "Per project - override completely:")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "  git config hooks.ai-exporter.url https://custom.com/api/collect")
-	fmt.Fprintln(os.Stderr, "  git config hooks.ai-exporter.token your-api-token")
-	fmt.Fprintln(os.Stderr, "")
-	fmt.Fprintln(os.Stderr, "Optional:")
-	fmt.Fprintln(os.Stderr, "  git config hooks.ai-exporter-count 1     # commits per push (default: 1)")
-	fmt.Fprintln(os.Stderr, "  git config hooks.ai-exporter-hostname    # override hostname")
+	fmt.Fprint(os.Stderr, configHelpText)
 
 	return nil
 }
