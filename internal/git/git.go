@@ -23,6 +23,7 @@ func (r *Runner) Run(args ...string) (string, error) {
 
 func RunCmd(dir, bin string, args ...string) (string, error) {
 	cmd := exec.Command(bin, args...)
+	hideWindow(cmd)
 	cmd.Dir = dir
 	cmd.Env = append(os.Environ(), "GIT_TERMINAL_PROMPT=0")
 	out, err := cmd.Output()
